@@ -1,43 +1,58 @@
 'use strict';
 
-const Hapi = require('hapi');
+const Crumb = require('..');
+const Hapi = require('@hapi/hapi');
+const Vision = require('@hapi/vision');
 
-const server = new Hapi.Server();
-server.connection({ host: '127.0.0.1', port: 8000 });
 
-server.views({
-    path: __dirname + '/templates',
-    engines: {
-        html: require('handlebars')
-    }
+const server = new Hapi.Server({
+    host: '127.0.0.1',
+    port: 8000
 });
 
-server.register({ register: require('../'), options: { cookieOptions: { isSecure: false } } }, (err) => {
-
-    if (err) {
-        throw err;
+const plugins = [
+    Vision,
+    {
+        plugin: Crumb,
+        options: {
+            cookieOptions: {
+                isSecure: false
+            }
+        }
     }
-});
+];
 
-server.route({
-    method: 'get',
-    path: '/',
-    handler: function (request, reply) {
+(async () => {
 
-        return reply.view('index', { title: 'test', message: 'hi' });
-    }
-});
+    await server.register(plugins);
 
-server.route({
-    method: 'post',
-    path: '/',
-    handler: function (request, reply) {
+    server.views({
+        relativeTo: __dirname,
+        path: 'templates',
+        engines: {
+            html: require('handlebars')
+        }
+    });
 
-        return reply.view('message', { title: 'test', message: request.payload.message });
-    }
-});
+    server.route({
+        method: 'get',
+        path: '/',
+        handler: function (request, h) {
 
-server.start(() => {
+            return h.view('index', { title: 'test', message: 'hi' });
+        }
+    });
+
+    server.route({
+        method: 'post',
+        path: '/',
+        handler: function (request, h) {
+
+            return h.view('message', { title: 'test', message: request.payload.message });
+        }
+    });
+
+    await server.start();
 
     console.log('Example server running at:', server.info.uri);
-});
+})();

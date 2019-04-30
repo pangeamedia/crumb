@@ -1,11 +1,8 @@
 {
-  "name": "crumb",
+  "name": "@hapi/crumb",
   "description": "CSRF crumb generation and validation plugin",
-  "version": "6.0.3",
+  "version": "7.3.0",
   "repository": "git://github.com/hapijs/crumb",
-  "bugs": {
-    "url": "https://github.com/hapijs/crumb/issues"
-  },
   "main": "lib/index.js",
   "keywords": [
     "hapi",
@@ -14,28 +11,22 @@
     "csrf",
     "session"
   ],
-  "engines": {
-    "node": ">=4.0.0"
-  },
   "dependencies": {
-    "boom": "3.x.x",
-    "cryptiles": "3.x.x",
-    "hoek": "4.x.x",
-    "joi": "8.x.x"
-  },
-  "peerDependencies": {
-    "hapi": ">=12.x.x"
+    "@hapi/boom": "7.x.x",
+    "@hapi/cryptiles": "4.x.x",
+    "@hapi/hoek": "6.x.x",
+    "@hapi/joi": "15.x.x"
   },
   "devDependencies": {
-    "code": "2.x.x",
-    "handlebars": "^4.0.5",
-    "hapi": "13.x.x",
-    "lab": "10.x.x",
-    "vision": "^4.0.0"
+    "@hapi/code": "5.x.x",
+    "@hapi/hapi": "18.x.x",
+    "@hapi/lab": "18.x.x",
+    "@hapi/vision": "5.x.x",
+    "handlebars": "4.x.x"
   },
   "scripts": {
-    "test": "lab -r console -t 100 -a code -L",
-    "test-cov-html": "lab -r html -o coverage.html -a code -L"
+    "test": "lab -t 100 -a @hapi/code -L",
+    "test-cov-html": "lab -r html -o coverage.html -a @hapi/code -L"
   },
   "license": "BSD-3-Clause"
 }
